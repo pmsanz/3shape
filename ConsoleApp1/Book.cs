@@ -7,9 +7,9 @@
         public int Published { get; private set; }
         public int Pages { get; private set; }
         //Consider to create a class with a DTO instead a constructor with too many arguments.
-        public Book(string isbn, string title, string author, string publisher, int pages, int published) : base(isbn, title)
+        public Book(List<string> authors, string isbn, string title, string publisher, int pages, int published) : base(isbn, title)
         {
-            Authors = new List<string> { author };
+            Authors = authors;
             Pages = pages;
             Published = published;
             Publisher = publisher;
