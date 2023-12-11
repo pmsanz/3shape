@@ -10,10 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\FindBooksFile.txt" />
     <None Remove="Resources\NewBooks.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\FindBooksFile.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\NewBooks.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>

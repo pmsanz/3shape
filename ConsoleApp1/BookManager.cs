@@ -66,6 +66,83 @@
 
             return books;
         }
+        public List<Book> FindBooks(string searchString)
+        {
+            List<Book> finalResults = new List<Book>();
+            List<string> searchTerms = SanitizeQuery(searchString);
+            List<List<Book>> searchResults = new List<List<Book>>();
 
+            foreach (string term in searchTerms)
+            {
+                List<Book> termResults = new List<Book>();
+                string searchTermNormalized = term.Trim().ToLower();
+
+                foreach (Book book in Books)
+                {
+                    if (MatchBook(book, searchTermNormalized))
+                    {
+                        termResults.Add(book);
+                    }
+                }
+                searchResults.Add(termResults);
+            }
+
+            //foreach (var search in searchResults)
+            //{
+            //    if (finalResults.Count == 0)
+            //        finalResults.AddRange(search);
+            //    else
+            //        finalResults = finalResults.Except(search).ToList();
+            //}
+            finalResults = searchResults.Aggregate((intermediateResults, termResults) => intermediateResults.Intersect(termResults).ToList());
+
+            return finalResults;
+        }
+
+        public static List<string> SanitizeQuery(string searchString)
+        {
+            List<string> sanitizedList = new List<string>();
+            bool hasLiteral = searchString.Contains(@"\&");
+
+            if (hasLiteral)
+            {
+                int j = 0;
+                for (int i = 0; i < searchString.Length; i++)
+                {
+                    if (i > 0 && searchString[j] != '\\' && searchString[i] == '&')
+                    {
+                        sanitizedList.Add(searchString.Substring(0, i));
+                        searchString = searchString.Remove(0, i + 1);
+                        i = 0;
+                        j = 0;
+                    }
+                    j = i > 0 ? i : 0;
+                }
+                if (searchString.Length > 0)
+                    sanitizedList.Add(searchString);
+            }
+            else
+            {
+                sanitizedList = searchString.Split('&').ToList();
+            }
+            for (int i = 0; i < sanitizedList.Count; i++)
+            {
+                string query = sanitizedList[i];
+                query = query.Replace(@"\&", "&");
+                query = query.Trim().Remove(0, 1);
+                query = query.Remove(query.Length - 1, 1);
+                sanitizedList[i] = query;
+            }
+
+            return sanitizedList;
+
+        }
+        public static bool MatchBook(Book book, string searchTerm)
+        {
+            return book.Title.ToLower().Contains(searchTerm) ||
+                   book.Authors.Any(author => author.ToLower().Contains(searchTerm)) ||
+                   book.Publisher.ToLower().Contains(searchTerm) ||
+                   book.Published.ToString().Contains(searchTerm);
+        }
     }
 }

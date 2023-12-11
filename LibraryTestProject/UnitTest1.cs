@@ -27,7 +27,7 @@ namespace LibraryTestProject
     public class UnitTest1
     {
         [Fact]
-        public void ReadBooks_readFromFile_True()
+        public void ReadBooks_ReadFromTxtFile_True()
         {
             string fileName = "NewBooks.txt";
             string fullFilePath = Utils.GetFilePath(fileName);
@@ -51,5 +51,86 @@ namespace LibraryTestProject
             Assert.Equal(2012, result[1].Published);
             Assert.Equal(156, result[1].Pages);
         }
+
+        [Fact]
+        public void FindBooks_ShouldReturnMatchingBooks_Equal6()
+        {
+            string fileName = "FindBooksFile.txt";
+            string fullFilePath = Utils.GetFilePath(fileName);
+            string input = File.ReadAllText(fullFilePath);
+
+            BookManager BookManagerInstance = new BookManager(input);
+
+            string searchString = @"*20* & *The*";
+            List<Book> result = BookManagerInstance.FindBooks(searchString);
+
+            Assert.NotNull(result);
+            Assert.Equal(6, result.Count);
+        }
+
+        [Fact]
+        public void FindBooks_ShouldReturnMatchingBooks_Equal1()
+        {
+            string fileName = "FindBooksFile.txt";
+            string fullFilePath = Utils.GetFilePath(fileName);
+            string input = File.ReadAllText(fullFilePath);
+
+            BookManager BookManagerInstance = new BookManager(input);
+
+            string searchString = @"*Lisa Anderson \& Peter Jhon*";
+            List<Book> result = BookManagerInstance.FindBooks(searchString);
+
+            Assert.NotNull(result);
+            Assert.Single(result);
+        }
+
+        [Fact]
+        public void FindBooks_ShouldReturnMatchingBooks_Empty()
+        {
+            string fileName = "FindBooksFile.txt";
+            string fullFilePath = Utils.GetFilePath(fileName);
+            string input = File.ReadAllText(fullFilePath);
+
+            BookManager BookManagerInstance = new BookManager(input);
+
+            string searchString = @"*@*";
+            List<Book> result = BookManagerInstance.FindBooks(searchString);
+
+            Assert.NotNull(result);
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public void SanitizeQuery_ShouldReturnTwoQueries_Equal3()
+        {
+
+            string searchString = @"*20* & *charles\&peter* & *george*";
+            List<string> result = BookManager.SanitizeQuery(searchString);
+
+            Assert.NotNull(result);
+            Assert.Equal(3, result.Count);
+
+            Assert.Equal("20", result[0]);
+            Assert.Contains(@"charles&peter", result[1]);
+            Assert.Contains("george", result[2]);
+
+        }
+
+        [Fact]
+        public void SanitizeQuery_ShouldReturnThreeQueries_Equal3()
+        {
+
+            string searchString = @"*20* & *charles* & *george*";
+            List<string> result = BookManager.SanitizeQuery(searchString);
+
+            Assert.NotNull(result);
+            Assert.Equal(3, result.Count);
+
+            Assert.Equal("20", result[0]);
+            Assert.Contains("charles", result[1]);
+            Assert.Contains("george", result[2]);
+
+        }
+
     }
 }

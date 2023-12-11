@@ -1,0 +1,43 @@
+Book:
+Author: John Smith
+Title: The Mystery of the Hidden Treasure
+Publisher: Fictional Publishing House
+Published: 2010
+NumberOfPages: 324
+
+Book:
+Author: Sarah Johnson
+Title: Adventures in the Enchanted Forest
+Publisher: Imaginary Books Inc.
+Published: 2015
+NumberOfPages: 215
+
+Book:
+Author: David Williams
+Author: Lisa Anderson & Peter Jhon
+Title: Secrets of the Lost World
+Publisher: Fantasy Publications
+Published: 2008
+NumberOfPages: 412
+
+Book:
+Author: Emily Parker
+Title: The Time Traveler's Journal
+Publisher: Chrono Books
+Published: 2019
+NumberOfPages: 289
+
+Book:
+Author: Michael Turner
+Title: Space Odyssey Beyond the Stars
+Publisher: Galactic Publications
+Published: 2021
+NumberOfPages: 376
+
+Book:
+Author: Samantha Lewis
+Author: Daniel Clark
+Title: The Quest for the Lost Relic
+Publisher: Adventure Press
+Published: 2013
+NumberOfPages: 240
