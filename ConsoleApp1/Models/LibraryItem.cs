@@ -1,4 +1,4 @@
-﻿namespace LibraryProjectChallenge
+﻿namespace LibraryProjectChallenge.Models
 {
     public abstract class LibraryItem
     {

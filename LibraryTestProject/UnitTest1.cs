@@ -1,4 +1,5 @@
 using LibraryProjectChallenge;
+using LibraryProjectChallenge.Models;
 
 namespace LibraryTestProject
 {

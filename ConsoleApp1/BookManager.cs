@@ -1,4 +1,6 @@
-﻿namespace LibraryProjectChallenge
+﻿using LibraryProjectChallenge.Models;
+
+namespace LibraryProjectChallenge
 {
     public class BookManager
     {
@@ -87,13 +89,6 @@
                 searchResults.Add(termResults);
             }
 
-            //foreach (var search in searchResults)
-            //{
-            //    if (finalResults.Count == 0)
-            //        finalResults.AddRange(search);
-            //    else
-            //        finalResults = finalResults.Except(search).ToList();
-            //}
             finalResults = searchResults.Aggregate((intermediateResults, termResults) => intermediateResults.Intersect(termResults).ToList());
 
             return finalResults;
