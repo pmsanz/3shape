@@ -1,13 +1,25 @@
 ﻿using LibraryProjectChallenge.Models;
+using LibraryProjectChallenge.Models.Repository;
+using LibraryProjectChallenge.Models.Repository.Interfaces;
 
 namespace LibraryProjectChallenge
 {
     public class BookManager
     {
+        private IRoomRepository roomRepository;
+        private IBookshelfRepository bookshelfRepository;
+        private IBookRepository bookRepository;
         public List<Book> Books { get; private set; }
+
         public BookManager(string input)
         {
             Books = ReadBooks(input);
+        }
+        public BookManager(List<Room> db)
+        {
+            this.roomRepository = new RoomRepository(db);
+            this.bookshelfRepository = new BookshelfRepository(db);
+            this.bookRepository = new BookRepository(db);
         }
         public static List<Book> ReadBooks(string input)
         {
@@ -93,7 +105,6 @@ namespace LibraryProjectChallenge
 
             return finalResults;
         }
-
         public static List<string> SanitizeQuery(string searchString)
         {
             List<string> sanitizedList = new List<string>();
@@ -139,5 +150,11 @@ namespace LibraryProjectChallenge
                    book.Publisher.ToLower().Contains(searchTerm) ||
                    book.Published.ToString().Contains(searchTerm);
         }
+
+        //BookService
+        public Book? FindBookByISBNOrDefault(string isbn) => bookRepository.GetBookByISBNOrDefault(isbn);
+        public Bookshelf? GetBookshelfOrDefault(int roomNumber, int rowNumber, int shelfNumber) => bookshelfRepository.GetBookshelfOrDefault(roomNumber, rowNumber, shelfNumber);
+        public Room? GetRoomOrDefault(int roomNumber) => roomRepository.GetRoomByNumberOrDefault(roomNumber);
+        public void AddBook(Book book) => bookRepository.AddBook(book);
     }
 }
