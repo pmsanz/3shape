@@ -25,7 +25,7 @@ namespace LibraryTestProject
 
     }
 
-    public class UnitTest1
+    public class BookManagerTest
     {
         [Fact]
         public void ReadBooks_ReadFromTxtFile_True()
